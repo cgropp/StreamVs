@@ -1,0 +1,20 @@
+seems like stream players are in:
+[data][entrants][2][3] // not 0
+
+
+actually it's more likely
+[player][0]
+and
+
+
+["data"]["entities"]["stream"]["player"]["0"]["gamerTag"]
+["data"]["entities"]["stream"]["player"]["0"]["twitterHandle"]
+
+wrong^
+
+actually
+["data"]["entities"]["player"]["0"]["gamerTag"] 
+^ not working though
+
+fixed by getting rid of " around 0 
+["data"]["entities"]["player"][0]["gamerTag"] 
