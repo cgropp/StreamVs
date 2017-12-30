@@ -12,12 +12,10 @@ tournamentData = json.load(tournamentJSON)
 tournamentID = tournamentData["entities"]["tournament"]["id"]
 tournamentName = str(tournamentData["entities"]["tournament"]["name"])
 
-#print(tournamentID) #Test successful, tournament ID is correct
 
 #Construct URL of stream queue api call and open
 streamURL = "https://api.smash.gg/station_queue/" + str(tournamentID)
 
-#print(streamURL) #Test successful, url is correct
 
 streamJSON = urlopen(streamURL)
 
