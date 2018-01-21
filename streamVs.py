@@ -35,12 +35,11 @@ while (validURL == False):
 
 
 #URL is accepted, get JSON file
-tournamentJSON = urlopen(apiURL)
+tournamentJSON = urlopen(apiURL).read().decode('utf-8')
 
 
 #Load JSON file into variable
-tournamentData = json.load(tournamentJSON)
-tournamentJSON.close()
+tournamentData = json.loads(tournamentJSON)
 
 #Obtain tournament ID and name
 try:
@@ -93,9 +92,8 @@ except urllib.error.HTTPError as error:
 #Loop everything below every 20 seconds:
 def streamLoop():
 	print("\nNow performing a new stream update cycle.")
-	streamJSON = urlopen(streamURL)
-	streamData = json.load(streamJSON) 
-	streamJSON.close()
+	streamJSON = urlopen(streamURL).read().decode('utf-8')
+	streamData = json.loads(streamJSON)
 
 
 	try:
@@ -113,7 +111,7 @@ def streamLoop():
 	try:
 		tournamentRound = str(streamData["data"]["entities"]["sets"][0]["midRoundText"])
 	except KeyError:
-		tournamentRound = "No stream queue"
+		tournamentRound = "Winners Side"
 		
 	#tournamentRound = "Fix later"
 	try:
@@ -123,9 +121,9 @@ def streamLoop():
 		
 	#TODO: Going to try to use optString
 	try:
-		twitter1 = str(streamData["data"]["entities"]["player"][0]["twitterHandle"])
+		twitter1 = "@" + str(streamData["data"]["entities"]["player"][0]["twitterHandle"])
 	except KeyError:
-		twitter1 = "Player 1"
+		twitter1 = " "
 
 	try:	
 		gamerTag2 = str(streamData["data"]["entities"]["player"][1]["gamerTag"])
@@ -133,9 +131,14 @@ def streamLoop():
 		gamerTag2 = "Player 2"
 
 	try:
-		twitter2 = str(streamData["data"]["entities"]["player"][1]["twitterHandle"])
+		twitter2 = "@" + str(streamData["data"]["entities"]["player"][1]["twitterHandle"])
 	except KeyError:
-		twitter2 = "Player 2 Twitter"
+		twitter2 = " "
+		
+	if(twitter1 == "@None"):
+		twitter1 = ""
+	if(twitter2 == "@None"):
+		twitter2 = ""
 
 	#Print relevant information
 	print("Event name: " + tournamentName)
